@@ -44,6 +44,10 @@ th, td {
     border: 1px solid #ccc;
 }
 
+tr {
+    text-align: left;
+}
+
 .section-header {
     background-color: #ddd;
     font-size: 18px;
