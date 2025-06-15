@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSCP Command Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function loadCommandsFromFile() {
+            fetch("commands.txt")
+                .then(response => response.text())
+                .then(data => {
+                    let commandCategories = JSON.parse(data); // Parse JSON-formatted text file
+                    let table = document.getElementById("commandTable");
+
+                    for (let category in commandCategories) {
+                        let headerRow = table.insertRow();
+                        let headerCell = headerRow.insertCell(0);
+                        headerCell.colSpan = 2;
+                        headerCell.innerHTML = `<strong>${category}</strong>`;
+                        headerCell.classList.add("section-header");
+
+                        commandCategories[category].forEach(command => {
+                            let row = table.insertRow();
+                            let cell1 = row.insertCell(0);
+                            let cell2 = row.insertCell(1);
+
+                            cell1.innerText = command;
+                            cell1.setAttribute("data-base-command", command);
+                            cell1.classList.add("command-text");
+
+                            let copyButton = document.createElement("button");
+                            copyButton.innerText = "Copy";
+                            copyButton.classList.add("copy-btn");
+                            copyButton.onclick = function() {
+                                navigator.clipboard.writeText(cell1.innerText).then(() => {
+                                    copyButton.innerText = "Copied!";
+                                    setTimeout(() => { copyButton.innerText = "Copy"; }, 2000);
+                                });
+                            };
+                            cell2.appendChild(copyButton);
+                        });
+                    }
+                })
+                .catch(error => console.error("Error loading commands:", error));
+        }
+
+        function appendValues() {
+            let ipValue = document.getElementById("ipInput").value;
+            let userValue = document.getElementById("usernameInput").value;
+            let passValue = document.getElementById("passwordInput").value;
+            if (ipValue.trim() === "" || userValue.trim() === "" || passValue.trim() === "") return;
+
+            let table = document.getElementById("commandTable");
+
+            for (let i = 1; i < table.rows.length; i++) {
+                let cell = table.rows[i].cells[0];
+                if (cell.getAttribute("data-base-command")) {
+                    let baseCommand = cell.getAttribute("data-base-command");
+                    cell.innerText = baseCommand
+                        .replace("{IP}", ipValue)
+                        .replace("{USERNAME}", userValue)
+                        .replace("{PASSWORD}", passValue);
+                }
+            }
+
+            document.getElementById("ipInput").value = "";
+            document.getElementById("usernameInput").value = "";
+            document.getElementById("passwordInput").value = "";
+        }
+
+        function searchCommand() {
+            let searchValue = document.getElementById("searchInput").value.toLowerCase();
+            let table = document.getElementById("commandTable");
+
+            for (let i = 1; i < table.rows.length; i++) {
+                let cell = table.rows[i].cells[0];
+                if (cell.innerText.toLowerCase().includes(searchValue)) {
+                    table.rows[i].style.display = "";
+                } else {
+                    table.rows[i].style.display = "none";
+                }
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</head>
+<body onload="loadCommandsFromFile()">
+
+    <button onclick="toggleTheme()" class="theme-toggle">Toggle Dark Mode</button>
+
+    <div class="input-container">
+        <input type="text" id="ipInput" placeholder="Enter IP Address...">
+        <input type="text" id="usernameInput" placeholder="Enter Username...">
+        <input type="password" id="passwordInput" placeholder="Enter Password...">
+        <button onclick="appendValues()" class="generate-btn">Generate Commands</button>
+    </div>
+
+    <input type="text" id="searchInput" placeholder="Search command..." oninput="searchCommand()" class="search-bar">
+
+    <table border="1" id="commandTable">
+        <tr>
+            <th>Command</th>
+            <th>Action</th>
+        </tr>
+    </table>
+
+</body>
+</html>
