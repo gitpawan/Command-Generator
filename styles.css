@@ -12,7 +12,7 @@ h1 {
   color: #4caf50;
 }
 
-.controls {
+.section {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -46,6 +46,10 @@ select, input {
   padding: 4px 8px;
   cursor: pointer;
   border-radius: 3px;
+}
+
+.copy-btn:disabled {
+  background-color: #777;
 }
 
 pre {
