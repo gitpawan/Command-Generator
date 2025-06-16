@@ -242,7 +242,7 @@
 
             for (const osType in commandsByOs) {
                 const osSectionDiv = document.createElement('div');
-                osSectionDiv.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-xl', 'transition', 'duration-300', 'ease-in-out', 'hover:shadow-2xl', 'border', 'border-gray-700', 'col-span-1'); /* Removed mb-4 for more compact spacing */
+                osSectionDiv.classList.add('bg-gray-800', 'p-4', 'rounded-lg', 'shadow-xl', 'transition', 'duration-300', 'ease-in-out', 'hover:shadow-2xl', 'border', 'border-gray-700', 'col-span-1');
 
                 const osTitle = document.createElement('h3');
                 osTitle.classList.add('text-xl', 'font-semibold', 'text-orange-400', 'mb-3', 'pb-1', 'border-b', 'border-gray-700');
@@ -254,29 +254,23 @@
 
                 commandsByOs[osType].forEach((c, index) => {
                     const commandCard = document.createElement('div');
-                    // Added 'group' class to the card for hover effect on description
-                    commandCard.classList.add('bg-gray-700', 'p-3', 'rounded-md', 'shadow-md', 'flex', 'flex-col', 'md:flex-row', 'md:items-center', 'md:justify-between', 'space-y-2', 'md:space-y-0', 'transition', 'duration-200', 'ease-in-out', 'hover:bg-gray-600', 'group');
+                    commandCard.classList.add('bg-gray-700', 'p-3', 'rounded-md', 'shadow-md', 'flex', 'flex-col', 'md:flex-row', 'md:items-center', 'md:justify-between', 'space-y-2', 'md:space-y-0', 'transition', 'duration-200', 'ease-in-out', 'hover:bg-gray-600'); /* Removed 'group' class */
 
                     const commandDetails = document.createElement('div');
                     commandDetails.classList.add('flex-grow');
 
-                    const desc = document.createElement('p');
-                    // Hidden by default, visible on group hover
-                    desc.classList.add('text-gray-300', 'text-xs', 'mb-1', 'opacity-0', 'group-hover:opacity-100', 'transition-opacity', 'duration-300');
-                    desc.textContent = c.description;
-                    commandDetails.appendChild(desc);
-
+                    // Description is now set as a title attribute on the code element
                     const commandCode = document.createElement('code');
-                    commandCode.classList.add('command-code', 'block', 'bg-gray-900', 'text-teal-200', 'px-2', 'py-1', 'rounded-sm', 'mt-1', 'overflow-x-auto', 'whitespace-pre-wrap', 'break-words', 'text-xs'); /* Smaller font for code, adjusted padding */
+                    commandCode.classList.add('command-code', 'block', 'bg-gray-900', 'text-teal-200', 'px-2', 'py-1', 'rounded-sm', 'mt-1', 'overflow-x-auto', 'whitespace-pre-wrap', 'break-words', 'text-xs');
                     commandCode.textContent = c.cmd;
+                    commandCode.title = c.description; // Set description as tooltip
                     commandDetails.appendChild(commandCode);
 
                     commandCard.appendChild(commandDetails);
 
                     const copyButton = document.createElement('button');
-                    // Unique ID for each copy button to avoid conflicts after filtering/reloading
                     const btnId = `copy-${osType}-${index}`;
-                    copyButton.classList.add('ml-0', 'md:ml-3', 'px-3', 'py-1.5', 'bg-gradient-to-r', 'from-teal-600', 'to-blue-600', 'text-white', 'font-semibold', 'rounded-md', 'shadow-md', 'hover:from-teal-700', 'hover:to-blue-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-teal-500', 'focus:ring-opacity-75', 'transition', 'duration-300', 'text-sm'); /* Smaller button */
+                    copyButton.classList.add('ml-0', 'md:ml-3', 'px-3', 'py-1.5', 'bg-gradient-to-r', 'from-teal-600', 'to-blue-600', 'text-white', 'font-semibold', 'rounded-md', 'shadow-md', 'hover:from-teal-700', 'hover:to-blue-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-teal-500', 'focus:ring-opacity-75', 'transition', 'duration-300', 'text-sm');
                     copyButton.textContent = 'Copy';
                     copyButton.onclick = () => copyToClipboard(c.cmd);
                     commandCard.appendChild(copyButton);
@@ -293,19 +287,18 @@
          * @param {string} text - The text to copy.
          */
         function copyToClipboard(text) {
-            // Using document.execCommand('copy') for better iframe compatibility
             const textarea = document.createElement('textarea');
             textarea.value = text;
-            textarea.style.position = 'fixed'; // Avoid scrolling to bottom
+            textarea.style.position = 'fixed';
             document.body.appendChild(textarea);
             textarea.focus();
             textarea.select();
             try {
                 document.execCommand('copy');
-                alertMessage('Command copied to clipboard!', 'success'); // Custom alert for success
+                alertMessage('Command copied to clipboard!', 'success');
             } catch (err) {
                 console.error('Failed to copy text: ', err);
-                alertMessage('Failed to copy command.', 'error'); // Custom alert for error
+                alertMessage('Failed to copy command.', 'error');
             }
             document.body.removeChild(textarea);
         }
@@ -332,7 +325,7 @@
             setTimeout(() => {
                 alertDiv.classList.remove('opacity-0');
                 alertDiv.classList.add('opacity-100');
-            }, 10); // Small delay to trigger transition
+            }, 10);
 
             // Fade out and remove
             setTimeout(() => {
@@ -340,8 +333,8 @@
                 alertDiv.classList.add('opacity-0');
                 setTimeout(() => {
                     alertDiv.remove();
-                }, 500); // Wait for fade out to complete before removing
-            }, 3000); // Display for 3 seconds
+                }, 500);
+            }, 3000);
         }
 
         // Event Listeners
@@ -365,11 +358,11 @@
         });
 
         document.getElementById('showLinux').addEventListener('click', () => {
-            osFilter = "Linux"; // Corrected this line to set filter
+            osFilter = "Linux";
             loadCommands();
         });
 
-        document.getElementById('showWindows').addEventListener('click', () => { // Changed to 'click'
+        document.getElementById('showWindows').addEventListener('click', () => {
             osFilter = "Windows";
             loadCommands();
         });
