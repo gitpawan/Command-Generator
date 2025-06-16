@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>OSCP Command Helper</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>OSCP Command Helper</h1>
 
-  <div class="controls">
+  <!-- Section 1: Category + Search -->
+  <div class="section">
     <label for="category">Category:</label>
     <select id="category"></select>
 
     <label for="search">Search:</label>
     <input type="text" id="search" placeholder="Search commands...">
+  </div>
 
+  <!-- Section 2: IP/Port/User/Pass -->
+  <div class="section">
     <input type="text" id="local_ip" placeholder="Local IP (e.g. 10.10.14.1)">
     <input type="text" id="port" placeholder="Port (e.g. 4444)">
     <input type="text" id="username" placeholder="Username (optional)">
@@ -71,17 +75,18 @@
 
       commands[currentCategory]
         .filter(c => c.cmd.toLowerCase().includes(searchTerm) || c.os.toLowerCase().includes(searchTerm))
-        .forEach(c => {
+        .forEach((c, index) => {
           let replaced = c.cmd
             .replaceAll("{IP}", ip)
             .replaceAll("{PORT}", port)
             .replaceAll("{USER}", user)
             .replaceAll("{PASS}", pass);
+
           let html = `
             <div class="command-box">
               <strong>${c.os}:</strong>
               <pre>${replaced}</pre>
-              <button class="copy-btn" onclick="copyToClipboard(\`${replaced}\`)">Copy</button>
+              <button class="copy-btn" id="copy-${index}" onclick="copyToClipboard(\`${replaced}\`, 'copy-${index}')">Copy</button>
             </div>
           `;
           cmdDiv.innerHTML += html;
@@ -92,9 +97,15 @@
       }
     }
 
-    function copyToClipboard(text) {
+    function copyToClipboard(text, btnId) {
       navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard!");
+        const btn = document.getElementById(btnId);
+        btn.textContent = "Copied!";
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = "Copy";
+          btn.disabled = false;
+        }, 1500);
       });
     }
   </script>
