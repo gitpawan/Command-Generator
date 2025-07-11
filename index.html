@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,9 +81,6 @@
             </div>
 
             <div class="flex flex-wrap justify-center gap-2">
-                <button id="showAll" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-md shadow-md hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition duration-300 text-sm flex-grow">
-                    ALL
-                </button>
                 <button id="showLinux" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-md shadow-md hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition duration-300 text-sm flex-grow">
                     LINUX
                 </button>
@@ -132,7 +128,7 @@
                 }
                 commands = await response.json();
                 populateCategories();
-                loadCommands(); // Display all commands initially
+                loadCommands(); // Display all commands initially (no OS filter applied by default)
                 if(loadingMessage) loadingMessage.remove(); // Remove loading message once loaded
             } catch (error) {
                 console.error('Error fetching commands:', error);
@@ -221,8 +217,6 @@
                     replacedCmd = replacedCmd.replaceAll("{PATH}", "/path/to/file_or_folder"); // Default for paths
                     replacedCmd = replacedCmd.replaceAll("{GIT_REPO_URL}", "http://example.com/.git");
                     replacedCmd = replacedCmd.replaceAll("{OUTPUT_DIRECTORY}", "/tmp/git_dump");
-                    // Note: {RPORT_SERVER} is not explicitly in your current JSON's commands as a parameter,
-                    // but if it were to appear, this default would apply.
                     // For the chisel client's {LHOST}:, it's displayed as is as it's not a standard parameter.
 
                     return { ...c, cmd: replacedCmd }; // Return a new object with the replaced command
@@ -360,11 +354,7 @@
             input.addEventListener('input', loadCommands);
         });
 
-        document.getElementById('showAll').addEventListener('click', () => {
-            osFilter = "";
-            loadCommands();
-        });
-
+        // Removed the 'showAll' button and its listener as requested
         document.getElementById('showLinux').addEventListener('click', () => {
             osFilter = "Linux";
             loadCommands();
@@ -380,4 +370,3 @@
     </script>
 </body>
 </html>
-```
