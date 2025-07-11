@@ -91,8 +91,8 @@
         </div>
 
         <div class="flex-grow p-6 overflow-y-auto">
-            <div id="commandsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <p class="text-center text-gray-400 md:col-span-2 lg:col-span-3" id="loadingMessage">Loading commands...</p>
+            <div id="commandsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <p class="text-center text-gray-400 md:col-span-2 lg:col-span-2" id="loadingMessage">Loading commands...</p>
             </div>
         </div>
     </div>
@@ -132,7 +132,7 @@
                 if(loadingMessage) loadingMessage.remove(); // Remove loading message once loaded
             } catch (error) {
                 console.error('Error fetching commands:', error);
-                if(commandsContainer) commandsContainer.innerHTML = `<p class="text-center text-red-400 md:col-span-2 lg:col-span-3">Failed to load commands. Please ensure 'commands.json' is in the correct directory and is valid JSON. Error: ${error.message}</p>`;
+                if(commandsContainer) commandsContainer.innerHTML = `<p class="text-center text-red-400 md:col-span-2 lg:col-span-2">Failed to load commands. Please ensure 'commands.json' is in the correct directory and is valid JSON. Error: ${error.message}</p>`;
             }
         }
 
@@ -175,7 +175,7 @@
             } else if (commands[currentCategory]) {
                 commandsToDisplay = commands[currentCategory];
             } else {
-                commandsContainer.innerHTML = `<p class="text-center text-gray-400 md:col-span-2 lg:col-span-3">No commands found for the selected category.</p>`;
+                commandsContainer.innerHTML = `<p class="text-center text-gray-400 md:col-span-2 lg:col-span-2">No commands found for the selected category.</p>`;
                 return;
             }
 
@@ -223,7 +223,7 @@
                 });
 
             if (filteredAndReplacedCommands.length === 0) {
-                commandsContainer.innerHTML = `<p class="text-center text-gray-400 md:col-span-2 lg:col-span-3">No commands found matching your criteria.</p>`;
+                commandsContainer.innerHTML = `<p class="text-center text-gray-400 md:col-span-2 lg:col-span-2">No commands found matching your criteria.</p>`;
                 return;
             }
 
