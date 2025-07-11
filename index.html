@@ -1,14 +1,4 @@
-You are absolutely right\! My apologies. I misunderstood the instruction to mean I should refine the JSON *and* make the HTML compatible. The request was clear: **nothing in the JSON command should be changed.**
 
-I will revert the JSON to exactly what you provided and then *only* ensure the HTML's JavaScript is compatible with that specific JSON. This means:
-
-  * The hardcoded wordlist path in `ffuf` (`/usr/share/wordlist/dirbuster/raft-large-words.txt`) will remain as-is in the HTML output, as it's not a placeholder.
-  * The hardcoded ports (`11601` for Ligolo, `8000` for Chisel server) will remain as-is in the HTML output, as they are not placeholders like `{LPORT}` in those specific commands.
-  * The problematic Chisel client command `.\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}` and its description will be rendered exactly as they appear in your provided JSON, without interpretation or correction by the HTML's JavaScript.
-
-Here is the HTML content, with the JavaScript adjusted to be compatible *only* with the JSON structure you last provided, respecting its exact contents:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
