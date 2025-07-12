@@ -88,6 +88,11 @@
     },
     {
       "os": "Linux",
+      "cmd": "evil-winrm -i {RHOST} -u {USER} -H {HASH}",
+      "description": "Establish a WinRM session to a Windows target for remote command execution using provided credentials."
+    },
+    {
+      "os": "Linux",
       "cmd": "impacket-psexec {USER}:{PASS}@{RHOST}",
       "description": "Execute commands remotely on a Windows target using PsExec-like functionality from Impacket with provided credentials."
     }
