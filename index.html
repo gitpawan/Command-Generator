@@ -80,6 +80,8 @@
                        class="w-full p-2 rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" autocomplete="on">
                 <input type="password" id="pass_input" placeholder="Pass (optional)"
                        class="w-full p-2 rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" autocomplete="on">
+                <input type="hash" id="hash_input" placeholder="hash (optional)"
+                       class="w-full p-2 rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" autocomplete="on">
                 <input type="text" id="domain_input" placeholder="Domain (optional, e.g., example.com)"
                        class="w-full p-2 rounded-md bg-gray-700 text-gray-100 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" autocomplete="on">
             </div>
@@ -115,6 +117,7 @@
         const fileInput = document.getElementById('file_input'); // New FILE input
         const userInput = document.getElementById('user_input');
         const passInput = document.getElementById('pass_input');
+        const hashInput = document.getElementById('hash_input');
         const domainInput = document.getElementById('domain_input');
 
         const searchInput = document.getElementById('search');
@@ -170,6 +173,7 @@
             const currentFile = fileInput.value; // Get FILE value
             const currentUser = userInput.value;
             const currentPass = passInput.value;
+            const currentHash = hashInput.value;
             const currentDomain = domainInput.value;
 
             commandsContainer.innerHTML = ''; // Clear previous content
@@ -210,6 +214,7 @@
                     replacedCmd = replacedCmd.replaceAll("{FILE}", currentFile || "{FILE}"); // Replace FILE
                     replacedCmd = replacedCmd.replaceAll("{USER}", currentUser || "{USER}");
                     replacedCmd = replacedCmd.replaceAll("{PASS}", currentPass || "{PASS}");
+                    replacedCmd = replacedCmd.replaceAll("{HASH}", currentHash || "{HASH}");
                     replacedCmd = replacedCmd.replaceAll("{DOMAIN}", currentDomain || "{DOMAIN}");
 
                     // Parameters without dedicated input fields in the HTML,
