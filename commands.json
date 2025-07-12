@@ -95,6 +95,11 @@
       "os": "Linux",
       "cmd": "impacket-psexec {USER}:{PASS}@{RHOST}",
       "description": "Execute commands remotely on a Windows target using PsExec-like functionality from Impacket with provided credentials."
+    },
+    {
+      "os": "Linux",
+      "cmd": "impacket-psexec {DOMAIN}/{USER}:{PASS}@{RHOST} cmd.exe",
+      "description": "Execute commands remotely on a Windows target using PsExec-like functionality from Impacket with provided credentials."
     }
   ],
   "tunneling_and_port_forwarding": [
