@@ -139,7 +139,7 @@
   "network_service_interaction": [
     {
       "os": "Linux",
-      "cmd": "psql -h {RHOST} -p {RPORT} -U {USER}",
+      "cmd": "psql -h {RHOST} -p {RPORT} -U postgres",
       "description": "Connect to a PostgreSQL database using the psql client, specifying the target host, port, and username."
     },
     {
