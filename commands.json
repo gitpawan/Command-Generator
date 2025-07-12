@@ -149,6 +149,11 @@
     },
     {
       "os": "Linux",
+      "cmd": "impacket-mssqlclient {USER}:'{PASS}'@{RHOST} -windows-auth",
+      "description": "Connect to a PostgreSQL database using the psql client, specifying the target host, port, and username."
+    },
+    {
+      "os": "Linux",
       "cmd": "nxc mssql {RHOST} -u users.txt -p pass.txt --continue-on-success",
       "description": "Perform MSSQL credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     },
