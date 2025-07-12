@@ -32,7 +32,7 @@
     },
     {
       "os": "Linux",
-      "cmd": "ffuf -u {RHOST} -w /usr/share/wordlist/dirbuster/raft-large-words.txt -fc 304",
+      "cmd": "ffuf -w /usr/share/wordlist/dirbuster/raft-large-words.txt -u http://{RHOST}/FUZZ -fc 304",
       "description": "Perform directory/file brute-forcing with ffuf, fuzzing a URL with a wordlist. Use 'FUZZ' keyword in {RHOST} for insertion. Additional filtering options can be added as needed."
     }
   ],
