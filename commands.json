@@ -112,11 +112,6 @@
       "os": "Linux",
       "cmd": "chisel server -v -p 8000 --reverse",
       "description": "Start a Chisel server with verbose output, listening on a specific local port and enabling reverse forwarding for clients."
-    },
-    {
-      "os": "Windows",
-      "cmd": ".\\chisel.exe client -v {LHOST}: R:{LPORT}:{RHOST}:{RPORT}",
-      "description": ".\\chisel.exe client -v {LHOST}: R:3306:127.0.0.1:3306"
     }
   ],
   "credential_and_ad_management": [
